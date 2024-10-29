@@ -1,0 +1,55 @@
+{"table_name":"aircrafts_data","column_name":"aircraft_code","description":"Unique identifier for each aircraft","data_type":"TEXT"}
+{"table_name":"aircrafts_data","column_name":"model","description":"Model of the aircraft","data_type":"TEXT"}
+{"table_name":"aircrafts_data","column_name":"range","description":"Maximum flight range of the aircraft in kilometers","data_type":"INTEGER"}
+{"table_name":"airports_data","column_name":"airport_code","description":"Unique identifier for each airport","data_type":"TEXT"}
+{"table_name":"airports_data","column_name":"airport_name","description":"Full name of the airport","data_type":"TEXT"}
+{"table_name":"airports_data","column_name":"city","description":"City where the airport is located","data_type":"TEXT"}
+{"table_name":"airports_data","column_name":"coordinates","description":"Geographic coordinates of the airport","data_type":"TEXT"}
+{"table_name":"airports_data","column_name":"timezone","description":"Time zone of the airport location","data_type":"TEXT"}
+{"table_name":"boarding_passes","column_name":"ticket_no","description":"Ticket number associated with the boarding pass","data_type":"TEXT"}
+{"table_name":"boarding_passes","column_name":"flight_id","description":"Identifier of the flight","data_type":"INTEGER"}
+{"table_name":"boarding_passes","column_name":"boarding_no","description":"Boarding number assigned to the passenger","data_type":"INTEGER"}
+{"table_name":"boarding_passes","column_name":"seat_no","description":"Seat number assigned to the passenger","data_type":"TEXT"}
+{"table_name":"bookings","column_name":"book_ref","description":"Unique booking reference","data_type":"TEXT"}
+{"table_name":"bookings","column_name":"book_date","description":"Date and time when the booking was made","data_type":"TIMESTAMP"}
+{"table_name":"bookings","column_name":"total_amount","description":"Total amount paid for the booking","data_type":"INTEGER"}
+{"table_name":"car_rentals","column_name":"id","description":"Unique identifier for each car rental","data_type":"INTEGER"}
+{"table_name":"car_rentals","column_name":"name","description":"Name of the car rental company","data_type":"TEXT"}
+{"table_name":"car_rentals","column_name":"location","description":"Location of the car rental","data_type":"TEXT"}
+{"table_name":"car_rentals","column_name":"price_tier","description":"Price category of the rental car","data_type":"TEXT"}
+{"table_name":"car_rentals","column_name":"start_date","description":"Start date of the car rental period","data_type":"DATE"}
+{"table_name":"car_rentals","column_name":"end_date","description":"End date of the car rental period","data_type":"DATE"}
+{"table_name":"car_rentals","column_name":"booked","description":"Booking status of the car (0 for available, 1 for booked)","data_type":"INTEGER"}
+{"table_name":"flights","column_name":"flight_id","description":"Unique identifier for each flight","data_type":"INTEGER"}
+{"table_name":"flights","column_name":"flight_no","description":"Flight number","data_type":"TEXT"}
+{"table_name":"flights","column_name":"scheduled_departure","description":"Scheduled departure date and time","data_type":"TIMESTAMP"}
+{"table_name":"flights","column_name":"scheduled_arrival","description":"Scheduled arrival date and time","data_type":"TIMESTAMP"}
+{"table_name":"flights","column_name":"departure_airport","description":"Code of the departure airport","data_type":"TEXT"}
+{"table_name":"flights","column_name":"arrival_airport","description":"Code of the arrival airport","data_type":"TEXT"}
+{"table_name":"flights","column_name":"status","description":"Current status of the flight","data_type":"TEXT"}
+{"table_name":"flights","column_name":"aircraft_code","description":"Code of the aircraft operating the flight","data_type":"TEXT"}
+{"table_name":"flights","column_name":"actual_departure","description":"Actual departure date and time","data_type":"TIMESTAMP"}
+{"table_name":"flights","column_name":"actual_arrival","description":"Actual arrival date and time","data_type":"TIMESTAMP"}
+{"table_name":"hotels","column_name":"id","description":"Unique identifier for each hotel booking","data_type":"INTEGER"}
+{"table_name":"hotels","column_name":"name","description":"Name of the hotel","data_type":"TEXT"}
+{"table_name":"hotels","column_name":"location","description":"Location of the hotel","data_type":"TEXT"}
+{"table_name":"hotels","column_name":"price_tier","description":"Price category of the hotel","data_type":"TEXT"}
+{"table_name":"hotels","column_name":"checkin_date","description":"Check-in date for the hotel booking","data_type":"DATE"}
+{"table_name":"hotels","column_name":"checkout_date","description":"Check-out date for the hotel booking","data_type":"DATE"}
+{"table_name":"hotels","column_name":"booked","description":"Booking status of the hotel room (0 for available, 1 for booked)","data_type":"INTEGER"}
+{"table_name":"seats","column_name":"aircraft_code","description":"Code of the aircraft","data_type":"TEXT"}
+{"table_name":"seats","column_name":"seat_no","description":"Seat number","data_type":"TEXT"}
+{"table_name":"seats","column_name":"fare_conditions","description":"Fare class of the seat (e.g., Economy, Business)","data_type":"TEXT"}
+{"table_name":"ticket_flights","column_name":"ticket_no","description":"Ticket number","data_type":"TEXT"}
+{"table_name":"ticket_flights","column_name":"flight_id","description":"Flight identifier","data_type":"INTEGER"}
+{"table_name":"ticket_flights","column_name":"fare_conditions","description":"Fare conditions for the ticket (e.g., Economy, Business)","data_type":"TEXT"}
+{"table_name":"ticket_flights","column_name":"amount","description":"Cost of the ticket","data_type":"INTEGER"}
+{"table_name":"tickets","column_name":"ticket_no","description":"Unique ticket number","data_type":"TEXT"}
+{"table_name":"tickets","column_name":"book_ref","description":"Booking reference associated with the ticket","data_type":"TEXT"}
+{"table_name":"tickets","column_name":"passenger_id","description":"Unique identifier for the passenger","data_type":"TEXT"}
+{"table_name":"trip_recommendations","column_name":"id","description":"Unique identifier for each trip recommendation","data_type":"INTEGER"}
+{"table_name":"trip_recommendations","column_name":"name","description":"Name of the recommended attraction or activity","data_type":"TEXT"}
+{"table_name":"trip_recommendations","column_name":"location","description":"Location of the recommended attraction or activity","data_type":"TEXT"}
+{"table_name":"trip_recommendations","column_name":"keywords","description":"Keywords associated with the recommendation","data_type":"TEXT"}
+{"table_name":"trip_recommendations","column_name":"details","description":"Detailed description of the recommendation","data_type":"TEXT"}
+{"table_name":"trip_recommendations","column_name":"booked","description":"Booking status of the recommendation (0 for available, 1 for booked)","data_type":"INTEGER"}
