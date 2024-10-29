@@ -1,5 +1,5 @@
 .env
-data/travel.sqlite
+backend/data/travel.sqlite
 __pycache__/
 *.log
 venv/
