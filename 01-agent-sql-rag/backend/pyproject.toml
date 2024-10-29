@@ -1,6 +1,6 @@
 [project]
 name = "api"
-version = "0.1"
+version = "0.2"
 dependencies = [
     "asyncio==3.4.3",
     "fastapi==0.111.0",
@@ -10,11 +10,10 @@ dependencies = [
     "langchain==0.3.3",
     "langgraph==0.2.38",
     "langchain-community==0.3.2",
-    "langchain-huggingface",
-    "langchain-groq",
-    "sentence_transformers",
-    "jq",
-    "fais-cpu"
+    "langchain-groq==0.2.0",
+    "langchain-cohere==0.1.8"
+    "jq==1.8.0a2",
+    "fais-cpu==1.8.0"
 
 ]
 [project.optional-dependencies]
