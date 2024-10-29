@@ -1,0 +1,21 @@
+[project]
+name = "api"
+version = "0.1"
+dependencies = [
+    "asyncio==3.4.3",
+    "fastapi==0.111.0",
+    "opentelemetry-api==1.22.0",
+    "pydantic==2.7.1",
+    "uvicorn==0.29.0",
+    "langchain==0.3.3",
+    "langgraph==0.2.38",
+    "langchain-community==0.3.2",
+    "langchain-huggingface",
+    "langchain-groq",
+    "sentence_transformers",
+    "jq",
+    "fais-cpu"
+
+]
+[project.optional-dependencies]
+dev = ["black", "flake8"]
