@@ -1,8 +1,8 @@
 from langchain_community.vectorstores import FAISS
-from langchain_cohere import CohereEmbeddings 
-from constant import COHERE_API_KEY
+from langchain_community.embeddings.fastembed import FastEmbedEmbeddings
+from src.constant import COHERE_API_KEY
 
-embeddings = CohereEmbeddings(model="embed-multilingual-v3.0", cohere_api_key=COHERE_API_KEY)
+embeddings = FastEmbedEmbeddings()
 
 def retriever(docs, k=5, search_type='mmr', lambda_mult=None):
     """

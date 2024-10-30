@@ -1,19 +1,18 @@
 import json
 from typing import Any, Literal
 
-from langgraph.graph import END, StateGraph, START
-from langchain.document_loaders import JSONLoader
+from langgraph.graph import END, StateGraph
+from langchain_community.document_loaders import JSONLoader
 from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 
 from langgraph.store.memory import InMemoryStore
 from langchain.chat_models.base import BaseChatModel
 from langgraph.checkpoint.memory import MemorySaver
-from langchain_community.agent_toolkits import SQLDatabaseToolkit
 from langchain_community.utilities import SQLDatabase
 
-from constant import DB_PATH
-from state import AgentState
+from src.constant import DB_PATH
+from src.state import AgentState
 
 class SQLAgentRAG:
     def __init__(
@@ -21,8 +20,8 @@ class SQLAgentRAG:
         llm: BaseChatModel,
         tools: Any,
         db_uri: str = DB_PATH,
-        table_json_path: str = "../data/table.jsonl",
-        column_json_path: str = "../data/column.jsonl",
+        table_json_path: str = "../backend/data/table.jsonl",
+        column_json_path: str = "../backend/data/column.jsonl",
         
     ):
         self.llm = llm
@@ -62,9 +61,9 @@ class SQLAgentRAG:
         graph.add_edge("general_asistant", END)
 
         # compile
-        memory_saver = InMemoryStore()
-        store = MemorySaver()
-        self.graph = graph.compile(checkpointer=memory_saver, store=store)
+        store = InMemoryStore()
+        checkpointer = MemorySaver()
+        self.graph = graph.compile(checkpointer=checkpointer, store=store)
 
 
     def _indexing_table(self, query: str):

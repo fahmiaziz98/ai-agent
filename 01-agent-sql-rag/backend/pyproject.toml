@@ -11,7 +11,8 @@ dependencies = [
     "langgraph==0.2.38",
     "langchain-community==0.3.2",
     "langchain-groq==0.2.0",
-    "langchain-cohere==0.1.8"
+    "langchain-cohere==0.3.1",
+    "fastembed==0.4.1",
     "jq==1.8.0a2",
     "fais-cpu==1.8.0"
 
