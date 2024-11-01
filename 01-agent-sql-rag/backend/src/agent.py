@@ -13,6 +13,12 @@ from langchain_community.utilities import SQLDatabase
 
 from src.constant import DB_PATH
 from src.state import AgentState
+import logging
+
+# Initialize logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
 
 class SQLAgentRAG:
     def __init__(
@@ -42,7 +48,6 @@ class SQLAgentRAG:
 
         # add edges
         graph.set_entry_point("router")
-        # graph.add_edge(START, "sql_gen")
         graph.add_edge("sql_gen", "validate_sql")
         graph.add_conditional_edges(
             "router",
@@ -70,6 +75,7 @@ class SQLAgentRAG:
         """
         Index and retrieve relevant tables based on the input query.
         """
+        logger.info("Indexing Table...")
         docs_table = JSONLoader(
             file_path=self.table_json_path,
             jq_schema='.',
@@ -90,6 +96,7 @@ class SQLAgentRAG:
         """
         Index and retrieve relevant columns based on the matched tables and query.
         """
+        logger.info("Get matched schema...")
         docs_column = JSONLoader(
             file_path=self.column_json_path,
             jq_schema='.',
@@ -117,6 +124,7 @@ class SQLAgentRAG:
         Generates a SQL query based on the input provided by the user.
         This function uses the LLM to construct the query from matched tables and columns.
         """
+        logger.info("Generate SQL Query...")
         messages = state["messages"][-1].content
         matched_table = self._indexing_table(messages)
         self.schema = self._indexing_column(matched_table, messages)
@@ -151,9 +159,12 @@ class SQLAgentRAG:
         Validates the generated SQL query by attempting to execute it.
         Returns success if no errors, otherwise returns the error message.
         """
+        logger.info("Validate SQL...")
         query = state["sql_query"][-1]
         try:
-            result = self.db.run(query)
+            logger.info(f"Query:\n{query}")
+            self.db.run(query)
+            return {"error_str": ""}
 
         except Exception as e:
             return {"error_str": [f"Unexpected Error: {str(e)}"]}
@@ -162,8 +173,12 @@ class SQLAgentRAG:
         """
         Called with the error code and error description as the argument to get guidance on how to solve the error
         """
-        error_string = state["error_str"][-1]
-        sql_query = state["sql_query"][-1]
+        error_string = state.get('error_str', "")
+        sql_query = state.get('sql_query', [None])[-1]
+
+        logger.info(f"Error{error_string}")
+        logger.info(f"SQL query {sql_query}")
+
         prompt = PromptTemplate(
             template="""
               First, identify the main issues with the given SQL query based on the error message.
@@ -182,14 +197,19 @@ class SQLAgentRAG:
             input_variables=["error_string", "schema", "sql_query"]
         )
         resolver = prompt | self.llm | StrOutputParser()
-        response = resolver.invoke({"error_string": error_string, "schema": self.schema, "sql_query": sql_query})
-        return {"sql_query": [response]}
+        corrected_query = resolver.invoke({
+            "error_string": error_string, 
+            "schema": self.schema, 
+            "sql_query": sql_query
+        })
+        return {"sql_query": [corrected_query]}
     
     def _query_gen_node(self, state: AgentState):
         """
         Generates a final response after executing the SQL query and getting the result.
         """
-        query = state["sql_query"][-1]
+        logger.info("Generate Response...")
+        query = state.get('sql_query', [None])[-1]
         messages = state["messages"][-1]  
         prompt = PromptTemplate(
             template="""Based on the following SQL result, generate a natural language response:
@@ -200,17 +220,19 @@ class SQLAgentRAG:
         )
 
         sql_response = self.db.run(query)
-        response_llm = prompt | self.llm | StrOutputParser()
-        response = response_llm.invoke({"user_query": messages, "sql_response": sql_response})
+        gen_llm = prompt | self.llm | StrOutputParser()
+        response = gen_llm.invoke({"user_query": messages, "sql_response": sql_response})
         return {"messages": [response]}
     
     def _general_asistant(self, state: AgentState):
+        logger.info("Assistant...")
         messages = state["messages"]
-        response = self.llm.invoke(messages)   # Pertama berhasil
+        response = self.llm.invoke(messages)   
 
-        return {'messages': [response]}
+        return {"messages": [response], "sql_query": [""]}
 
     def router(self, state: AgentState):
+        logger.info("Router...")
         return state["question_type"]
 
     def router_node(self, state: AgentState):
@@ -236,8 +258,7 @@ class SQLAgentRAG:
         If the last message contains "correct", continue to response.
         Otherwise, go to error-solving or retry.
         """
-        if "error_str" in state:
-            # If 'error_str' exists and contains an error, return "solve_error"
+        if state.get("error_str"):
+            # If error exists, go to solve_error
             return "solve_error"
-        else:
-            return "response"  # If no error, proceed to generate the final response
+        return "response"
